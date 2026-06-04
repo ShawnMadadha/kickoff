@@ -1,7 +1,7 @@
 {
   "no_parking": { "claim": "Parking is not available at the official shuttle locations; only ticketed fans may board.", "label": "FIFA — Know Before You Go, Miami", "url": "https://fifaworldcup26.hospitality.fifa.com/know-before-you-go/miami" },
-  "shuttle_window": { "claim": "Free shuttles run from rail hubs from 3.5h pre-match to 1.5h post.", "label": "FIFA — Miami", "url": "https://fifaworldcup26.hospitality.fifa.com/know-before-you-go/miami" },
-  "ticketholder_only": { "claim": "Only fans with a ticket to that day's match may board the buses.", "label": "FIFA — Miami", "url": "https://fifaworldcup26.hospitality.fifa.com/know-before-you-go/miami" },
+  "shuttle_window": { "claim": "Free shuttles run from rail hubs from 3.5h pre-match to 1.5h post.", "label": "FIFA — shuttle hours", "url": "https://fifaworldcup26.hospitality.fifa.com/know-before-you-go/miami" },
+  "ticketholder_only": { "claim": "Only fans with a ticket to that day's match may board the buses.", "label": "FIFA — ticketed fans", "url": "https://fifaworldcup26.hospitality.fifa.com/know-before-you-go/miami" },
   "transit_encouraged": { "claim": "Miami-Dade mobility plan: free ticketholder shuttle service; transit strongly encouraged.", "label": "Miami Host Committee", "url": "https://miamifwc26.com/" },
   "copa_2024": { "claim": "The 2024 Copa America final at Hard Rock had a dangerous crowd crush.", "label": "CBS News Miami", "url": "https://www.cbsnews.com/miami/news/miami-2026-fifa-world-cup-hard-rock-stadium-teams-dates-times" }
 }

@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night: #0a0f1a;
+  --color-night-2: #0e1524;
+  --color-card: #121c2e;
+  --color-card-2: #16223a;
+  --color-line: #213149;
+  --color-accent: #19c37d;
+  --color-accent-ink: #04221a;
+  --color-ink: #e8eef6;
+  --color-muted: #93a4bb;
+  --color-danger: #f0596b;
+  --color-danger-bg: #2a121a;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #122139 0%, rgba(18, 33, 57, 0) 60%),
+    var(--color-night);
+  color: var(--color-ink);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* thin, dark scrollbar so the phone frame stays clean */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 99px;
+}
