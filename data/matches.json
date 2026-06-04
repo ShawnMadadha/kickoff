@@ -1,0 +1,12 @@
+{
+  "venue": { "name": "Hard Rock Stadium (Miami Stadium)", "lat": 25.9580, "lng": -80.2389 },
+  "matches": [
+    { "id": "m1", "fixture": "Saudi Arabia vs Uruguay", "date": "2026-06-15", "kickoff": "18:00", "stage": "Group" },
+    { "id": "m2", "fixture": "Uruguay vs Cape Verde",   "date": "2026-06-21", "kickoff": "18:00", "stage": "Group" },
+    { "id": "m3", "fixture": "Scotland vs Brazil",      "date": "2026-06-24", "kickoff": "18:00", "stage": "Group" },
+    { "id": "m4", "fixture": "Portugal vs Colombia",    "date": "2026-06-27", "kickoff": "19:30", "stage": "Group" },
+    { "id": "m5", "fixture": "Round of 32",             "date": "2026-07-03", "kickoff": null,    "stage": "Knockout" },
+    { "id": "m6", "fixture": "Quarterfinal",            "date": "2026-07-11", "kickoff": null,    "stage": "Knockout" },
+    { "id": "m7", "fixture": "Bronze final",            "date": "2026-07-18", "kickoff": null,    "stage": "Knockout" }
+  ]
+}

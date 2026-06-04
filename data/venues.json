@@ -1,0 +1,12 @@
+{
+  "_note": "Coordinates are APPROXIMATE seeds — verify/enrich via Google Places at runtime.",
+  "venues": [
+    { "name": "FIFA Fan Festival — Bayfront Park", "type": "fan_festival", "neighborhood": "Downtown", "lat": 25.7753, "lng": -80.1860, "free": true, "note": "Official, Jun 13 – Jul 5" },
+    { "name": "Bar Tulio's", "type": "watch_party", "neighborhood": "Wynwood", "lat": 25.8016, "lng": -80.1990, "free": true, "note": "14+ TVs, sound on, no cover" },
+    { "name": "Grails Wynwood", "type": "watch_party", "neighborhood": "Wynwood", "lat": 25.8030, "lng": -80.1975, "free": true, "note": "All matches, sneaker lounge + patio" },
+    { "name": "La Tropical", "type": "watch_party", "neighborhood": "Wynwood", "lat": 25.8042, "lng": -80.1968, "free": false, "note": "LED walls, $35 min spend" },
+    { "name": "Fogo de Chao — Wynwood Marketplace", "type": "watch_party", "neighborhood": "Wynwood", "lat": 25.8005, "lng": -80.1995, "free": true, "note": "12-day activation, daily watch parties" },
+    { "name": "Clevelander", "type": "watch_party", "neighborhood": "South Beach", "lat": 25.7805, "lng": -80.1300, "free": true, "note": "20+ screens, 20ft LED, DJ sets" },
+    { "name": "Copa El Jardin — El Jardin Inn", "type": "fan_zone", "neighborhood": "Little Havana", "lat": 25.7650, "lng": -80.2190, "free": true, "note": "Neighborhood fan zone, murals, DJs" }
+  ]
+}
