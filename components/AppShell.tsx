@@ -3,7 +3,7 @@
 import { useState } from "react";
 import matchesData from "@/data/matches.json";
 import type { Match } from "@/lib/types";
-import type { Language } from "@/lib/i18n";
+import { t, type Language } from "@/lib/i18n";
 import TabBar, { type Tab } from "./TabBar";
 import ScheduleView from "./ScheduleView";
 import PlanView from "./PlanView";
@@ -35,7 +35,7 @@ export default function AppShell() {
         <div className="leading-tight">
           <h1 className="text-base font-semibold tracking-tight">Kickoff</h1>
           <p className="text-[11px] text-muted">
-            Get to the match, not the traffic
+            {t("header", "tagline", language)}
           </p>
         </div>
         <div className="ml-auto">
@@ -68,7 +68,7 @@ export default function AppShell() {
         )}
       </main>
 
-      <TabBar active={tab} onChange={setTab} />
+      <TabBar active={tab} onChange={setTab} language={language} />
     </div>
   );
 }

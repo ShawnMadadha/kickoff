@@ -70,9 +70,9 @@ export function renderPlanTemplate(plan: ArrivalPlan, language: Language) {
 
   if (language === "es") {
     return [
-      `Para ${plan.fixture}, desde ${plan.origin}, la mejor opcion es ${best.method}.`,
-      `Sal antes de ${best.leaveBy}. Ese horario viene del motor de llegada.`,
-      blocked ? `${blocked.method}: ${blocked.why}.` : "",
+      `Para ${plan.fixture}, desde ${plan.origin}, la mejor opción es ${best.method}.`,
+      `Sal a las ${best.leaveBy}. Ese horario viene del motor de llegada.`,
+      blocked ? "Conducir no es opción: no hay estacionamiento en el estadio." : "",
     ]
       .filter(Boolean)
       .join(" ");
@@ -80,9 +80,9 @@ export function renderPlanTemplate(plan: ArrivalPlan, language: Language) {
 
   if (language === "pt") {
     return [
-      `Para ${plan.fixture}, saindo de ${plan.origin}, a melhor opcao e ${best.method}.`,
-      `Saia ate ${best.leaveBy}. Esse horario vem do motor de chegada.`,
-      blocked ? `${blocked.method}: ${blocked.why}.` : "",
+      `Para ${plan.fixture}, saindo de ${plan.origin}, a melhor opção é ${best.method}.`,
+      `Saia às ${best.leaveBy}. Esse horário vem do motor de chegada.`,
+      blocked ? "Dirigir está fora: não há estacionamento no estádio." : "",
     ]
       .filter(Boolean)
       .join(" ");
@@ -91,7 +91,7 @@ export function renderPlanTemplate(plan: ArrivalPlan, language: Language) {
   return [
     `For ${plan.fixture}, from ${plan.origin}, the best option is ${best.method}.`,
     `Leave by ${best.leaveBy}. That time comes from the arrival engine.`,
-    blocked ? `${blocked.method}: ${blocked.why}.` : "",
+    blocked ? "Driving is out: there's no parking at the stadium." : "",
   ]
     .filter(Boolean)
     .join(" ");

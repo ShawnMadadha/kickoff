@@ -1,13 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { Match } from "@/lib/types";
-import type { Language } from "@/lib/i18n";
+import { t, type Language } from "@/lib/i18n";
 import {
   VOICE_DEMOS,
   buildVoicePlan,
+  parseVoiceTranscript,
   renderPlanTemplate,
 } from "@/lib/voiceTemplate";
+import { listen, sttSupported } from "@/lib/speech";
 import SourceChip from "./SourceChip";
 
 const SPEECH_LANG: Record<Language, string> = {
@@ -15,6 +17,10 @@ const SPEECH_LANG: Record<Language, string> = {
   es: "es-US",
   pt: "pt-BR",
 };
+
+// Client-only flag without an effect (avoids a hydration mismatch + the
+// react-compiler set-state-in-effect lint) for SpeechRecognition detection.
+const emptySubscribe = () => () => {};
 
 export default function VoiceView({
   match,
@@ -26,6 +32,15 @@ export default function VoiceView({
   onLanguageChange: (language: Language) => void;
 }) {
   const [transcript, setTranscript] = useState(VOICE_DEMOS[0].transcript);
+  const [listening, setListening] = useState(false);
+  const stopRef = useRef<null | (() => void)>(null);
+
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+  const micEnabled = isClient && sttSupported();
 
   const result = useMemo(
     () => buildVoicePlan(transcript, match),
@@ -35,10 +50,31 @@ export default function VoiceView({
     ? renderPlanTemplate(result.plan, result.language)
     : "";
 
+  function applyTranscript(text: string) {
+    setTranscript(text);
+    const parsed = parseVoiceTranscript(text);
+    if (parsed) onLanguageChange(parsed.language);
+  }
+
   function handleDemo(index: number) {
     const demo = VOICE_DEMOS[index];
-    setTranscript(demo.transcript);
-    onLanguageChange(demo.language);
+    applyTranscript(demo.transcript);
+  }
+
+  function onMic() {
+    if (listening) {
+      stopRef.current?.();
+      setListening(false);
+      return;
+    }
+    setListening(true);
+    const stop = listen(
+      language,
+      (tr) => applyTranscript(tr),
+      () => setListening(false),
+    );
+    if (!stop) setListening(false);
+    else stopRef.current = stop;
   }
 
   function speak() {
@@ -53,12 +89,43 @@ export default function VoiceView({
 
   return (
     <section>
-      <div className="mb-3">
+      <div className="mb-3 text-center">
         <h2 className="text-lg font-semibold tracking-tight">
-          Voice & language
+          {t("voice", "title", language)}
         </h2>
-        <p className="text-xs text-muted">Español · Português · English</p>
+        <p className="text-xs text-muted">{t("voice", "sub", language)}</p>
       </div>
+
+      {/* Live mic (Chrome) or a hint pointing to the demos/text */}
+      {isClient && (
+        <div className="mb-4 flex flex-col items-center">
+          {micEnabled ? (
+            <>
+              <button
+                type="button"
+                onClick={onMic}
+                aria-pressed={listening}
+                className={`flex h-16 w-16 items-center justify-center rounded-full text-2xl transition-all ${
+                  listening
+                    ? "animate-pulse bg-danger/20 ring-4 ring-danger/40"
+                    : "bg-accent/15 ring-2 ring-accent/30 hover:bg-accent/25"
+                }`}
+              >
+                🎙️
+              </button>
+              <p className="mt-2 text-xs text-muted">
+                {listening
+                  ? t("voice", "listening", language)
+                  : t("voice", "tapMic", language)}
+              </p>
+            </>
+          ) : (
+            <div className="w-full rounded-xl border border-dashed border-line bg-card px-4 py-2.5 text-center text-xs text-muted">
+              {t("voice", "micHint", language)}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="mb-3 grid grid-cols-2 gap-2">
         {VOICE_DEMOS.map((demo, index) => (
@@ -70,7 +137,7 @@ export default function VoiceView({
           >
             <span className="block text-xs font-semibold">{demo.label}</span>
             <span className="mt-0.5 block text-[11px] text-muted">
-              Demo STT transcript
+              {t("voice", "demoLabel", language)}
             </span>
           </button>
         ))}
@@ -78,14 +145,14 @@ export default function VoiceView({
 
       <label className="mb-4 block">
         <span className="mb-1.5 block text-xs font-medium text-muted">
-          Transcript
+          {t("voice", "transcript", language)}
         </span>
         <textarea
           value={transcript}
           onChange={(event) => setTranscript(event.target.value)}
           rows={3}
           className="w-full resize-none rounded-xl border border-line bg-card px-3 py-2 text-sm text-ink outline-none transition-colors placeholder:text-muted focus:border-accent"
-          placeholder="Soy hincha de Brasil, me quedo en Brickell"
+          placeholder={t("voice", "placeholder", language)}
         />
       </label>
 
@@ -94,7 +161,7 @@ export default function VoiceView({
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-                Template readback
+                {t("voice", "readbackLabel", language)}
               </p>
               <p className="mt-1 text-sm leading-relaxed">{readback}</p>
             </div>
@@ -103,7 +170,7 @@ export default function VoiceView({
               onClick={speak}
               className="shrink-0 rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink transition-opacity hover:opacity-90"
             >
-              Play
+              ▶ {t("voice", "play", language)}
             </button>
           </div>
           <div className="mt-3 flex flex-wrap gap-1.5">
@@ -115,18 +182,14 @@ export default function VoiceView({
         </div>
       ) : (
         <p className="rounded-xl border border-dashed border-line px-4 py-6 text-center text-xs text-muted">
-          Use a transcript that includes a seeded origin: Brickell, Miami Beach,
-          Downtown, or Aventura.
+          {t("voice", "emptyHint", language)}
         </p>
       )}
 
       <div className="mt-4 rounded-xl border border-line bg-card-2 p-3">
         <p className="text-[11px] leading-relaxed text-muted">
-          <span className="font-semibold text-ink">The honest rule:</span> voice
-          only does speech-to-text + translation. It fills the{" "}
-          <span className="font-medium text-ink">same computed plan</span> — it
-          never invents a departure time. The model can&apos;t hallucinate a
-          wrong &ldquo;leave by.&rdquo;
+          <span className="font-semibold text-ink">⚖️</span>{" "}
+          {t("voice", "rule", language)}
         </p>
       </div>
     </section>

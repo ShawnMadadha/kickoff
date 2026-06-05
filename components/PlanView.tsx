@@ -170,7 +170,12 @@ export default function PlanView({
                 )}
 
                 {match.kickoff !== null && origin && (
-                  <LeaveAlert match={match} origin={origin} option={opt} />
+                  <LeaveAlert
+                    match={match}
+                    origin={origin}
+                    option={opt}
+                    language={language}
+                  />
                 )}
               </div>
             );
