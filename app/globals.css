@@ -40,3 +40,48 @@ body {
   background: var(--color-line);
   border-radius: 99px;
 }
+
+/* --- Leaflet dark theme overrides --- */
+.leaflet-container {
+  font-family: var(--font-sans), Arial, sans-serif;
+  background: var(--color-night);
+}
+/* strip the default white box around divIcon pins */
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--color-card);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.leaflet-popup-content {
+  margin: 10px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.leaflet-popup-content b {
+  color: #fff;
+}
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--color-muted);
+}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: var(--color-card);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+.leaflet-bar a:hover {
+  background: var(--color-card-2);
+}
+.leaflet-control-attribution {
+  background: rgba(10, 15, 26, 0.7) !important;
+  color: var(--color-muted) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-muted) !important;
+}

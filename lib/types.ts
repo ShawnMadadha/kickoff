@@ -26,3 +26,16 @@ export type ArrivalPlan = {
   kickoff: string | null;
   options: ArrivalOption[];
 };
+
+export type VenueType = "fan_festival" | "watch_party" | "fan_zone";
+
+export type Venue = {
+  name: string;
+  type: VenueType;
+  neighborhood: string;
+  lat: number;
+  lng: number;
+  free: boolean;
+  intensity: number; // 0-1, MODELED crowd estimate (drives the heat overlay)
+  note: string;
+};
