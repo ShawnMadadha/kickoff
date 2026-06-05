@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" role="img" aria-label="Kickoff — get to the match, not the traffic. Leave by 4:10 PM.">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="-5%" r="75%">
+      <stop offset="0%" stop-color="#36e1d6" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#36e1d6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#36e1d6" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#36e1d6"/>
+      <stop offset="1" stop-color="#36e1d6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="shimmer" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="f" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect x="2" y="2" width="1276" height="416" rx="28" fill="#0b1018" stroke="#ffffff" stroke-opacity="0.10"/>
+  <rect x="2" y="2" width="1276" height="416" rx="28" fill="url(#glow)"/>
+
+  <!-- shimmer sweep -->
+  <rect x="-420" y="2" width="420" height="416" fill="url(#shimmer)">
+    <animate attributeName="x" from="-420" to="1280" dur="5.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- logo lockup -->
+  <g transform="translate(80,64)">
+    <rect width="56" height="56" rx="16" fill="#36e1d6"/>
+    <path d="M16 28h25M30 17l13 11-13 11" fill="none" stroke="#062f38" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="74" y="30" font-size="42" font-weight="900" fill="#eef2f7" letter-spacing="-1">KICKOFF</text>
+    <text x="76" y="52" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#9aa7b8" letter-spacing="2.5">GET TO THE MATCH, NOT THE TRAFFIC</text>
+  </g>
+
+  <!-- WC chip -->
+  <g transform="translate(1042,74)">
+    <rect width="158" height="34" rx="17" fill="#36e1d6" fill-opacity="0.14" stroke="#36e1d6" stroke-opacity="0.40"/>
+    <text x="79" y="23" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#36e1d6" letter-spacing="1.5">MIAMI · WC 26</text>
+  </g>
+
+  <!-- departure-board hero -->
+  <g transform="translate(80,196)">
+    <text font-family="Arial,sans-serif" font-size="18" font-weight="bold" letter-spacing="6" fill="#36e1d6">LEAVE BY</text>
+    <text x="-4" y="118" font-size="150" font-weight="900" fill="#36e1d6" letter-spacing="-4" filter="url(#f)">4:10<animate attributeName="opacity" values="1;0.78;1" dur="2.4s" repeatCount="indefinite"/></text>
+    <text x="372" y="118" font-size="62" font-weight="900" fill="#36e1d6">PM</text>
+    <g transform="translate(0,152)">
+      <circle cx="9" cy="-5" r="7" fill="#36e1d6">
+        <animate attributeName="r" values="5;8.5;5" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.35;1" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <text x="28" y="1" font-family="Arial,sans-serif" font-size="20" fill="#9aa7b8">leave in <tspan fill="#f2b04a" font-weight="bold">12 min</tspan> · ~35 min ride · computed, never guessed</text>
+    </g>
+  </g>
+
+  <!-- route line -->
+  <g transform="translate(740,250)">
+    <line x1="0" y1="0" x2="400" y2="0" stroke="url(#line)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="9" fill="#0b1018" stroke="#36e1d6" stroke-width="3"/>
+    <circle cx="200" cy="0" r="9" fill="#0b1018" stroke="#36e1d6" stroke-width="3"/>
+    <circle cx="400" cy="0" r="11" fill="#f2b04a"/>
+    <text x="0" y="34" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#9aa7b8">Brickell</text>
+    <text x="200" y="34" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#9aa7b8">Shuttle</text>
+    <text x="400" y="34" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#f2b04a">Stadium</text>
+    <circle cy="0" r="6" fill="#36e1d6">
+      <animate attributeName="cx" values="0;400" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.88;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <rect x="80" y="372" width="1120" height="2" fill="url(#line)" opacity="0.6"/>
+</svg>
