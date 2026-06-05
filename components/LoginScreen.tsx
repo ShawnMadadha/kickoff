@@ -29,7 +29,7 @@ const letter: Variants = {
     opacity: 1,
     y: 0,
     rotateX: 0,
-    transition: { type: "spring", stiffness: 220, damping: 14 },
+    transition: { type: "spring", stiffness: 240, damping: 20 },
   },
 };
 

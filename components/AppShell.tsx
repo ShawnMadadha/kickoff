@@ -81,7 +81,10 @@ export default function AppShell() {
     : undefined;
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig
+      reducedMotion="user"
+      transition={{ type: "spring", visualDuration: 0.45, bounce: 0.12 }}
+    >
       <div
         style={teamStyle}
         className="relative z-10 mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-night-2 shadow-2xl shadow-black/40 sm:my-4 sm:h-[calc(100dvh-2rem)] sm:rounded-3xl sm:border sm:border-line/60"
@@ -129,10 +132,10 @@ export default function AppShell() {
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={tab}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
               {tab === "schedule" && (
                 <ScheduleView

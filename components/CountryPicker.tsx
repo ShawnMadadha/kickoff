@@ -56,7 +56,7 @@ const card: Variants = {
     opacity: 1,
     x: 0,
     rotate: 0,
-    transition: { type: "spring", stiffness: 180, damping: 18 },
+    transition: { type: "spring", stiffness: 210, damping: 24 },
   },
 };
 

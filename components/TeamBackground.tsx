@@ -27,8 +27,8 @@ export default function TeamBackground({
       <motion.div
         className="absolute -inset-[8%]"
         style={{ background: flag, opacity: 0.5 }}
-        animate={{ skewY: [-1.4, 1.4, -1.4], scaleY: [1, 1.05, 1] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ skewY: [-1.2, 1.2, -1.2], scaleY: [1, 1.04, 1] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* moving fabric folds = the ripple */}
@@ -39,7 +39,7 @@ export default function TeamBackground({
             "repeating-linear-gradient(100deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0.24) 46px, rgba(255,255,255,0.06) 80px, rgba(0,0,0,0) 122px)",
         }}
         animate={{ backgroundPositionX: ["0px", "244px"] }}
-        transition={{ duration: 6.5, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 8.5, repeat: Infinity, ease: "linear" }}
       />
 
       {/* readability scrim */}

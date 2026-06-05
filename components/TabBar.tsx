@@ -50,7 +50,7 @@ export default function TabBar({
                   <motion.span
                     aria-hidden
                     layoutId="tab-indicator"
-                    transition={{ type: "spring", stiffness: 500, damping: 34 }}
+                    transition={{ type: "spring", stiffness: 420, damping: 38 }}
                     className="absolute top-0 h-[3px] w-7 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent)]"
                   />
                 )}
