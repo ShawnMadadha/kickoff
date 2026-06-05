@@ -1,0 +1,25 @@
+{
+  "_note": "Seeded Spotify neighborhood playlists for demo use. These are links, not live API calls.",
+  "playlists": {
+    "Downtown": {
+      "title": "Downtown match-day pulse",
+      "url": "https://open.spotify.com/playlist/37i9dQZF1DX0XUsuxWHRQd",
+      "sourceKey": "spotify_playlist_seed"
+    },
+    "Wynwood": {
+      "title": "Wynwood pre-match heat",
+      "url": "https://open.spotify.com/playlist/37i9dQZF1DX10zKzsJ2jva",
+      "sourceKey": "spotify_playlist_seed"
+    },
+    "South Beach": {
+      "title": "South Beach watch-party mix",
+      "url": "https://open.spotify.com/playlist/37i9dQZF1DX4SBhb3fqCJd",
+      "sourceKey": "spotify_playlist_seed"
+    },
+    "Little Havana": {
+      "title": "Little Havana fan-zone set",
+      "url": "https://open.spotify.com/playlist/37i9dQZF1DX10zKzsJ2jva",
+      "sourceKey": "spotify_playlist_seed"
+    }
+  }
+}

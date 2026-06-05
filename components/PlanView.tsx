@@ -5,6 +5,7 @@ import type { Match, Origin } from "@/lib/types";
 import { buildPlan } from "@/lib/arrivalEngine";
 import matchesData from "@/data/matches.json";
 import { formatDate, formatKickoff } from "@/lib/format";
+import { t, type Language } from "@/lib/i18n";
 import SourceChip from "./SourceChip";
 import LeaveAlert from "./LeaveAlert";
 
@@ -22,7 +23,13 @@ function uberLink() {
   return `https://m.uber.com/ul/?${p.toString()}`;
 }
 
-export default function PlanView({ match }: { match: Match }) {
+export default function PlanView({
+  match,
+  language,
+}: {
+  match: Match;
+  language: Language;
+}) {
   const [origin, setOrigin] = useState<Origin | null>(null);
   const plan = origin ? buildPlan(origin, match) : null;
 
@@ -40,7 +47,7 @@ export default function PlanView({ match }: { match: Match }) {
       {/* Origin picker */}
       <div className="mb-4">
         <p className="mb-2 text-xs font-medium text-muted">
-          Where are you staying?
+          {t("plan", "stay", language)}
         </p>
         <div className="grid grid-cols-2 gap-2">
           {ORIGINS.map((o) => {
@@ -65,15 +72,15 @@ export default function PlanView({ match }: { match: Match }) {
 
       {!plan && (
         <p className="rounded-xl border border-dashed border-line px-4 py-6 text-center text-xs text-muted">
-          Pick where you&apos;re staying to see your ranked arrival plan.
+          {t("plan", "empty", language)}
         </p>
       )}
 
       {plan && (
         <div className="flex flex-col gap-3">
           <p className="text-xs text-muted">
-            Ranked for {origin} → {venue.name}. Times include a 75-min walk +
-            security buffer.
+            {t("plan", "ranked", language)} {origin} → {venue.name}.{" "}
+            {t("plan", "buffer", language)}
           </p>
 
           {plan.options.map((opt) => {
@@ -88,7 +95,7 @@ export default function PlanView({ match }: { match: Match }) {
                       🚫
                     </span>
                     <p className="text-sm font-semibold text-danger">
-                      {opt.method} — not an option
+                      {opt.method} — {t("plan", "notOption", language)}
                     </p>
                   </div>
                   <p className="mt-1 text-xs text-ink">{opt.why}</p>
@@ -117,7 +124,7 @@ export default function PlanView({ match }: { match: Match }) {
                       <p className="text-sm font-semibold">{opt.method}</p>
                       {opt.rank === 1 && (
                         <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
-                          Recommended
+                          {t("plan", "recommended", language)}
                         </span>
                       )}
                     </div>
@@ -130,7 +137,7 @@ export default function PlanView({ match }: { match: Match }) {
                 <div className="mt-3 flex items-end justify-between gap-2">
                   <div>
                     <p className="text-[10px] uppercase tracking-wide text-muted">
-                      Leave by
+                      {t("plan", "leaveBy", language)}
                     </p>
                     <p className="text-2xl font-bold leading-none text-accent">
                       {opt.leaveBy}
@@ -138,7 +145,9 @@ export default function PlanView({ match }: { match: Match }) {
                   </div>
                   <p className="text-[11px] text-muted">
                     ~{opt.transitEstimateMin} min{" "}
-                    <span className="text-muted/70">(estimate)</span>
+                    <span className="text-muted/70">
+                      ({t("plan", "estimate", language)})
+                    </span>
                   </p>
                 </div>
 
@@ -154,7 +163,7 @@ export default function PlanView({ match }: { match: Match }) {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 rounded-full bg-ink px-2.5 py-0.5 text-[10px] font-semibold text-night transition-opacity hover:opacity-90"
                       >
-                        Open in Uber →
+                        {t("plan", "uber", language)} →
                       </a>
                     )}
                   </div>
@@ -169,9 +178,7 @@ export default function PlanView({ match }: { match: Match }) {
 
           {match.kickoff === null && (
             <p className="rounded-lg bg-card-2 px-3 py-2 text-[11px] text-muted">
-              This is a knockout match — the exact kickoff time is set once the
-              bracket is decided, so leave-by times show as TBD until then. No
-              fake times.
+              {t("plan", "tbd", language)}
             </p>
           )}
         </div>
