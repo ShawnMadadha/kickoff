@@ -2,14 +2,17 @@
 
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import { Check } from "@phosphor-icons/react";
+import { Check, NavigationArrow } from "@phosphor-icons/react";
 import venuesData from "@/data/venues.json";
 import playlistsData from "@/data/playlists.json";
+import matchesData from "@/data/matches.json";
 import type { Venue } from "@/lib/types";
 import { t, type Language } from "@/lib/i18n";
+import { googleDir, appleDir } from "@/lib/directions";
 import SourceChip from "./SourceChip";
 
 const venues = venuesData.venues as Venue[];
+const stadium = matchesData.venue;
 const playlists = playlistsData.playlists as Record<
   string,
   { title: string; url: string; sourceKey: string }
@@ -122,9 +125,33 @@ export default function MapView({ language }: { language: Language }) {
       <div className="mb-2 h-72 overflow-hidden rounded-xl border border-line">
         <MapCanvas venues={filtered} showHeat={showHeat} />
       </div>
-      <p className="mb-4 text-[10px] text-muted/80">
+      <p className="mb-2 text-[10px] text-muted/80">
         {t("map", "legend", language)}
       </p>
+
+      {/* Turn-by-turn hand-off to the stadium */}
+      <div className="mb-4 flex items-center gap-2 rounded-xl border border-line bg-card px-3 py-2">
+        <NavigationArrow size={16} weight="fill" className="shrink-0 text-accent" />
+        <span className="text-xs font-semibold">Directions to Hard Rock Stadium</span>
+        <div className="ml-auto flex gap-1.5">
+          <a
+            href={googleDir(stadium.lat, stadium.lng)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-line bg-card-2 px-2.5 py-1 text-[10px] font-semibold text-ink hover:border-accent/50"
+          >
+            Google
+          </a>
+          <a
+            href={appleDir(stadium.lat, stadium.lng)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full border border-line bg-card-2 px-2.5 py-1 text-[10px] font-semibold text-ink hover:border-accent/50"
+          >
+            Apple
+          </a>
+        </div>
+      </div>
 
       {/* Filtered list — also the fallback if map tiles fail on venue wifi */}
       {filtered.length === 0 ? (
@@ -176,6 +203,26 @@ export default function MapView({ language }: { language: Language }) {
                     <p className="text-[11px] text-muted">
                       {TYPE_LABEL[v.type] ?? v.type} · {v.note}
                     </p>
+                    <div className="mt-2 flex items-center gap-2 text-[10px]">
+                      <span className="text-muted/70">Directions:</span>
+                      <a
+                        href={googleDir(v.lat, v.lng)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-accent hover:underline"
+                      >
+                        Google
+                      </a>
+                      <span className="text-line">·</span>
+                      <a
+                        href={appleDir(v.lat, v.lng)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-accent hover:underline"
+                      >
+                        Apple
+                      </a>
+                    </div>
                     {playlist && (
                       <div className="mt-2">
                         <SourceChip k={playlist.sourceKey} />

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MotionConfig, AnimatePresence } from "motion/react";
 import matchesData from "@/data/matches.json";
-import type { Match } from "@/lib/types";
+import type { Match, Origin } from "@/lib/types";
 import { t, type Language } from "@/lib/i18n";
 import { kickoffCountdown, formatCountdown } from "@/lib/countdown";
 import { useNow } from "@/lib/useNow";
@@ -40,9 +40,28 @@ export default function AppShell() {
   const [selectedMatchId, setSelectedMatchId] = useState<string>(matches[0].id);
   const [language, setLanguage] = useState<Language>("en");
   const [entered, setEntered] = useState(false);
+  const [initialOrigin, setInitialOrigin] = useState<Origin | null>(null);
 
   const selectedMatch =
     matches.find((m) => m.id === selectedMatchId) ?? matches[0];
+
+  // Deep link from a shared/QR'd plan: ?m=<match>&o=<origin>&l=<lang>.
+  // Lands straight on the plan (skips the splash) in the shared language.
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const m = p.get("m");
+    if (!m || !matches.some((x) => x.id === m)) return;
+    const o = p.get("o");
+    const l = p.get("l");
+    const validOrigins: Origin[] = ["Brickell", "Miami Beach", "Downtown", "Aventura"];
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setSelectedMatchId(m);
+    if (l === "en" || l === "es" || l === "pt") setLanguage(l);
+    if (o && validOrigins.includes(o as Origin)) setInitialOrigin(o as Origin);
+    setTab("plan");
+    setEntered(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   function pickMatch(id: string) {
     setSelectedMatchId(id);
@@ -101,7 +120,11 @@ export default function AppShell() {
             />
           )}
           {tab === "plan" && (
-            <PlanView match={selectedMatch} language={language} />
+            <PlanView
+              match={selectedMatch}
+              language={language}
+              initialOrigin={initialOrigin}
+            />
           )}
           {tab === "map" && <MapView language={language} />}
           {tab === "voice" && (

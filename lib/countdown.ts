@@ -42,6 +42,14 @@ export function leaveCountdown(
   return toCountdown(instantMs(match.date, clock.hh, clock.mm), now);
 }
 
+/** Absolute epoch (ms) of the computed leave-by, or null for TBD. Used to
+ * anchor the match-day demo clock. */
+export function leaveByInstantMs(match: Match, transitMin: number): number | null {
+  const clock = leaveByClock(match.kickoff, transitMin);
+  if (!clock) return null;
+  return instantMs(match.date, clock.hh, clock.mm);
+}
+
 /** Countdown to kickoff (for the header "Matchday in…" chip). */
 export function kickoffCountdown(match: Match, now: Date): Countdown {
   if (!match.kickoff) return { kind: "none" };

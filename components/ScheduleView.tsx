@@ -1,11 +1,25 @@
 "use client";
 
+import { motion, type Variants } from "motion/react";
 import type { Match } from "@/lib/types";
 import matchesData from "@/data/matches.json";
 import { formatDate, formatKickoff } from "@/lib/format";
 import SourceChip from "./SourceChip";
 
 const venueName = matchesData.venue.name;
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.045, delayChildren: 0.04 } },
+};
+const item: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function ScheduleView({
   matches,
@@ -17,17 +31,22 @@ export default function ScheduleView({
   onPick: (id: string) => void;
 }) {
   return (
-    <section>
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold tracking-tight">Miami matches</h2>
+    <motion.section variants={container} initial="hidden" animate="show">
+      <motion.div variants={item} className="mb-4">
+        <h2 className="font-display text-xl font-bold tracking-tight">
+          Miami matches
+        </h2>
         <p className="text-xs text-muted">
           {matches.length} World Cup matches at {venueName}. Tap one to plan your
           arrival.
         </p>
-      </div>
+      </motion.div>
 
       {/* The stakes — real, sourced. Sets up the whole pitch. */}
-      <div className="mb-4 rounded-xl border border-danger/30 bg-danger-bg/60 p-3">
+      <motion.div
+        variants={item}
+        className="mb-4 rounded-2xl border border-danger/30 bg-danger-bg/60 p-3"
+      >
         <p className="text-xs leading-relaxed text-ink">
           <span className="font-semibold text-danger">Why this matters:</span>{" "}
           the 2024 Copa América final at this exact stadium ended in a dangerous
@@ -37,18 +56,19 @@ export default function ScheduleView({
         <div className="mt-2">
           <SourceChip k="copa_2024" />
         </div>
-      </div>
+      </motion.div>
 
-      <ul className="flex flex-col gap-2.5">
+      <motion.ul variants={container} className="flex flex-col gap-2.5">
         {matches.map((m) => {
           const isSelected = m.id === selectedId;
           const tbd = m.kickoff === null;
           return (
-            <li key={m.id}>
-              <button
+            <motion.li key={m.id} variants={item}>
+              <motion.button
                 type="button"
                 onClick={() => onPick(m.id)}
-                className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${
+                whileTap={{ scale: 0.985 }}
+                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent ${
                   isSelected
                     ? "border-accent/60 bg-accent/5"
                     : "border-line bg-card hover:border-accent/40 hover:bg-card-2"
@@ -58,7 +78,7 @@ export default function ScheduleView({
                   <span className="text-[10px] uppercase tracking-wide text-muted">
                     {formatDate(m.date).split(",")[1]?.trim().split(" ")[0]}
                   </span>
-                  <span className="text-xl font-bold leading-none">
+                  <span className="font-display text-xl font-extrabold leading-none tnum">
                     {m.date.split("-")[2]}
                   </span>
                 </div>
@@ -67,9 +87,7 @@ export default function ScheduleView({
                   <p className="text-xs text-muted">
                     {formatKickoff(m.kickoff)}
                     {tbd && (
-                      <span className="ml-1 text-muted/70">
-                        · bracket pending
-                      </span>
+                      <span className="ml-1 text-muted/70">· bracket pending</span>
                     )}
                   </p>
                 </div>
@@ -82,11 +100,11 @@ export default function ScheduleView({
                 >
                   {m.stage}
                 </span>
-              </button>
-            </li>
+              </motion.button>
+            </motion.li>
           );
         })}
-      </ul>
-    </section>
+      </motion.ul>
+    </motion.section>
   );
 }

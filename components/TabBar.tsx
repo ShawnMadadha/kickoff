@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import {
   CalendarBlank,
   NavigationArrow,
@@ -46,8 +47,10 @@ export default function TabBar({
                 }`}
               >
                 {on && (
-                  <span
+                  <motion.span
                     aria-hidden
+                    layoutId="tab-indicator"
+                    transition={{ type: "spring", stiffness: 500, damping: 34 }}
                     className="absolute top-0 h-[3px] w-7 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent)]"
                   />
                 )}

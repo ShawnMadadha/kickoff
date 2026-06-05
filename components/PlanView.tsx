@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { motion, type Variants } from "motion/react";
-import { Prohibit } from "@phosphor-icons/react";
+import { QRCodeSVG } from "qrcode.react";
+import { Prohibit, Lightning, ShareNetwork, Check } from "@phosphor-icons/react";
 import type { Match, Origin } from "@/lib/types";
 import { buildPlan } from "@/lib/arrivalEngine";
 import matchesData from "@/data/matches.json";
 import { formatDate, formatKickoff } from "@/lib/format";
-import { leaveCountdown, formatCountdown } from "@/lib/countdown";
+import { leaveCountdown, formatCountdown, leaveByInstantMs } from "@/lib/countdown";
 import { useNow } from "@/lib/useNow";
+import { enterDemo, exitDemo, isDemoActive } from "@/lib/demoClock";
 import { t, type Language } from "@/lib/i18n";
 import SourceChip from "./SourceChip";
 import LeaveAlert from "./LeaveAlert";
@@ -43,11 +45,16 @@ function isRideshare(method: string) {
 export default function PlanView({
   match,
   language,
+  initialOrigin = null,
 }: {
   match: Match;
   language: Language;
+  initialOrigin?: Origin | null;
 }) {
-  const [origin, setOrigin] = useState<Origin | null>(null);
+  const [origin, setOrigin] = useState<Origin | null>(initialOrigin);
+  const [demoOn, setDemoOn] = useState(() => isDemoActive());
+  const [showShare, setShowShare] = useState(false);
+  const [copied, setCopied] = useState(false);
   const now = useNow();
   const plan = origin ? buildPlan(origin, match) : null;
 
@@ -55,6 +62,33 @@ export default function PlanView({
   const rec = ok[0];
   const alts = ok.slice(1);
   const blocked = plan ? plan.options.filter((o) => o.status === "BLOCKED") : [];
+
+  function toggleDemo() {
+    if (demoOn) {
+      exitDemo();
+      setDemoOn(false);
+      return;
+    }
+    const anchor = rec ? leaveByInstantMs(match, rec.transitEstimateMin ?? 0) : null;
+    if (anchor == null) return;
+    enterDemo(anchor - 12 * 60000); // 12 min before the recommended leave-by
+    setDemoOn(true);
+  }
+
+  // Shareable deep link: match + origin + language. Scanning it loads this
+  // exact plan (in this language) on the scanner's phone.
+  const shareUrl =
+    typeof window !== "undefined" && origin
+      ? `${window.location.origin}${window.location.pathname}?m=${match.id}&o=${encodeURIComponent(origin)}&l=${language}`
+      : "";
+
+  function copyLink() {
+    if (!shareUrl) return;
+    navigator.clipboard?.writeText(shareUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    });
+  }
 
   const cdLabel =
     rec && now && rec.transitEstimateMin != null
@@ -118,6 +152,32 @@ export default function PlanView({
           initial="hidden"
           animate="show"
         >
+          {/* Match-day demo: time-shift the live countdown for the pitch */}
+          {match.kickoff !== null && (
+            <motion.button
+              variants={item}
+              type="button"
+              onClick={toggleDemo}
+              className={`mb-3 flex w-full items-center justify-center gap-1.5 rounded-full border px-3 py-2 text-xs font-semibold transition-colors ${
+                demoOn
+                  ? "border-rush/60 bg-rush/15 text-rush"
+                  : "border-line bg-card text-muted hover:text-ink"
+              }`}
+            >
+              {demoOn ? (
+                <>
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-rush" />
+                  Simulating match day · tap to exit
+                </>
+              ) : (
+                <>
+                  <Lightning size={14} weight="fill" />
+                  Simulate match day (live countdown)
+                </>
+              )}
+            </motion.button>
+          )}
+
           {/* HERO — the recommended departure-board moment */}
           <motion.div
             variants={item}
@@ -201,6 +261,54 @@ export default function PlanView({
                 option={rec}
                 language={language}
               />
+            )}
+          </motion.div>
+
+          {/* Share + scan-to-try-it */}
+          <motion.div
+            variants={item}
+            className="mt-3 rounded-2xl border border-line bg-card p-3.5"
+          >
+            <button
+              type="button"
+              onClick={() => setShowShare((s) => !s)}
+              className="flex w-full items-center gap-2 text-sm font-semibold"
+            >
+              <ShareNetwork size={18} weight="bold" className="text-accent" />
+              Share this plan · scan to try it
+              <span className="ml-auto text-xs text-muted">
+                {showShare ? "Hide" : "Show QR"}
+              </span>
+            </button>
+            {showShare && shareUrl && (
+              <div className="mt-3 flex flex-col items-center gap-3">
+                <div className="rounded-xl bg-white p-3">
+                  <QRCodeSVG
+                    value={shareUrl}
+                    size={168}
+                    bgColor="#ffffff"
+                    fgColor="#08121b"
+                    level="M"
+                  />
+                </div>
+                <p className="break-all text-center text-[11px] text-muted">
+                  {shareUrl}
+                </p>
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card-2 px-4 py-1.5 text-xs font-semibold text-ink hover:border-accent/50"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={14} weight="bold" className="text-accent" />
+                      Copied
+                    </>
+                  ) : (
+                    "Copy link"
+                  )}
+                </button>
+              </div>
             )}
           </motion.div>
 
