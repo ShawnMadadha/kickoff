@@ -3,17 +3,20 @@
 import { useState } from "react";
 import matchesData from "@/data/matches.json";
 import type { Match } from "@/lib/types";
+import type { Language } from "@/lib/i18n";
 import TabBar, { type Tab } from "./TabBar";
 import ScheduleView from "./ScheduleView";
 import PlanView from "./PlanView";
 import MapView from "./MapView";
 import VoiceView from "./VoiceView";
+import LanguageToggle from "./LanguageToggle";
 
 const matches = matchesData.matches as unknown as Match[];
 
 export default function AppShell() {
   const [tab, setTab] = useState<Tab>("schedule");
   const [selectedMatchId, setSelectedMatchId] = useState<string>(matches[0].id);
+  const [language, setLanguage] = useState<Language>("en");
 
   const selectedMatch =
     matches.find((m) => m.id === selectedMatchId) ?? matches[0];
@@ -35,9 +38,15 @@ export default function AppShell() {
             Get to the match, not the traffic
           </p>
         </div>
-        <span className="ml-auto rounded-full bg-accent/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-accent">
-          Miami · WC 26
-        </span>
+        <div className="ml-auto">
+          {tab === "plan" || tab === "map" || tab === "voice" ? (
+            <LanguageToggle language={language} onChange={setLanguage} />
+          ) : (
+            <span className="rounded-full bg-accent/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-accent">
+              Miami · WC 26
+            </span>
+          )}
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto px-4 pb-6 pt-4">
@@ -48,9 +57,15 @@ export default function AppShell() {
             onPick={pickMatch}
           />
         )}
-        {tab === "plan" && <PlanView match={selectedMatch} />}
-        {tab === "map" && <MapView />}
-        {tab === "voice" && <VoiceView />}
+        {tab === "plan" && <PlanView match={selectedMatch} language={language} />}
+        {tab === "map" && <MapView language={language} />}
+        {tab === "voice" && (
+          <VoiceView
+            match={selectedMatch}
+            language={language}
+            onLanguageChange={setLanguage}
+          />
+        )}
       </main>
 
       <TabBar active={tab} onChange={setTab} />
