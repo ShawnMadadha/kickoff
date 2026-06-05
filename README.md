@@ -14,7 +14,7 @@
 ![Tailwind v4](https://img.shields.io/badge/Tailwind_v4-0b1018?style=flat-square&logo=tailwindcss&logoColor=36E1D6)
 ![Leaflet](https://img.shields.io/badge/Leaflet-0b1018?style=flat-square&logo=leaflet&logoColor=36E1D6)
 ![Vercel](https://img.shields.io/badge/Vercel-0b1018?style=flat-square&logo=vercel&logoColor=white)
-![Built with Cursor](https://img.shields.io/badge/Built_with-Cursor-36E1D6?style=flat-square&labelColor=0b1018)
+![Built with Cursor](https://img.shields.io/badge/Built_with-Cursor-36E1D6?style=flat-square&labelColor=0b1018&logo=cursor&logoColor=36E1D6)
 
 **The match-day companion for the FIFA World Cup&nbsp;26™ in Miami.**
 Routes every fan to the right way into Hard Rock Stadium, in their language, and plugs them into the city's watch-party scene.
@@ -59,6 +59,14 @@ The verified engine lives in [`reference/arrival_router.py`](reference/arrival_r
 
 ## See it
 
+<div align="center">
+
+<img src=".github/assets/demo.svg" alt="Kickoff demo reel" width="270" />
+
+<sub><i>Live reel: the plan, match-day countdown, heat map, Português, scan-to-share.</i></sub>
+
+</div>
+
 <table>
 <tr>
 <td align="center" width="20%"><img src=".github/assets/plan.png" width="100%"/><br/><sub><b>The plan</b><br/>Leave by 4:10 PM</sub></td>
@@ -71,7 +79,9 @@ The verified engine lives in [`reference/arrival_router.py`](reference/arrival_r
 
 <div align="center">
 
-**Try it on your phone:** [kickoff-brown-tau.vercel.app](https://kickoff-brown-tau.vercel.app) · or jump straight to a plan in Portuguese, [`?m=m3&o=Brickell&l=pt`](https://kickoff-brown-tau.vercel.app/?m=m3&o=Brickell&l=pt)
+<img src=".github/assets/qrcode.svg" alt="Scan to open Kickoff" width="168" />
+
+**Scan to open Kickoff** on your phone, or visit [kickoff-brown-tau.vercel.app](https://kickoff-brown-tau.vercel.app) · jump straight to a plan in Portuguese, [`?m=m3&o=Brickell&l=pt`](https://kickoff-brown-tau.vercel.app/?m=m3&o=Brickell&l=pt)
 
 </div>
 
@@ -122,5 +132,9 @@ kickoff/
 <img src=".github/assets/divider.svg" alt="" width="100%" />
 
 <div align="center">
+
+<img src=".github/assets/cursor.svg" alt="Cursor" height="24" />
+
 <sub>Built at the <b>Cursor Miami Hackathon</b>, The DOCK, Wynwood. Designed, built, and shipped to production live.</sub>
+
 </div>
