@@ -72,21 +72,21 @@ export default function LoginScreen({ onEnter }: { onEnter: () => void }) {
       {/* aurora — drifting blurred blobs */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -left-16 top-10 h-56 w-56 rounded-full bg-accent/30 blur-3xl"
-        animate={{ x: [0, 40, -10, 0], y: [0, 30, 60, 0], scale: [1, 1.25, 1.05, 1] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute -left-16 top-10 h-56 w-56 rounded-full bg-accent/30 blur-2xl will-change-transform"
+        animate={{ x: [0, 40, -10, 0], y: [0, 30, 60, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -right-20 top-1/3 h-64 w-64 rounded-full bg-rush/25 blur-3xl"
-        animate={{ x: [0, -30, 10, 0], y: [0, 40, -20, 0], scale: [1, 1.15, 0.95, 1] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/4 h-52 w-52 rounded-full bg-accent/20 blur-3xl"
-        animate={{ x: [0, 25, -25, 0], y: [0, -25, 10, 0], scale: [1, 1.2, 1, 1] }}
+        className="pointer-events-none absolute -right-20 top-1/3 h-64 w-64 rounded-full bg-rush/25 blur-2xl will-change-transform"
+        animate={{ x: [0, -30, 10, 0], y: [0, 40, -20, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/4 h-52 w-52 rounded-full bg-accent/20 blur-2xl will-change-transform"
+        animate={{ x: [0, 25, -25, 0], y: [0, -25, 10, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* confetti burst on kick-off */}
@@ -114,8 +114,8 @@ export default function LoginScreen({ onEnter }: { onEnter: () => void }) {
           <motion.span
             aria-hidden
             className="absolute inset-0 rounded-2xl bg-accent/40 blur-xl"
-            animate={{ opacity: [0.4, 0.85, 0.4], scale: [1, 1.18, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ opacity: [0.45, 0.8, 0.45] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
           />
           <span className="relative grid h-[68px] w-[68px] place-items-center rounded-2xl bg-gradient-to-br from-accent to-[oklch(70%_0.1_195)] text-accent-ink shadow-lg shadow-accent/30">
             <SoccerBall size={38} weight="fill" aria-hidden />
@@ -181,23 +181,15 @@ export default function LoginScreen({ onEnter }: { onEnter: () => void }) {
           />
           <motion.button
             type="submit"
-            className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-accent py-3.5 font-display text-base font-bold text-accent-ink active:scale-[0.98]"
-            animate={{
-              boxShadow: [
-                "0 0 0 0 oklch(82% 0.13 195 / 0)",
-                "0 0 28px 3px oklch(82% 0.13 195 / 0.55)",
-                "0 0 0 0 oklch(82% 0.13 195 / 0)",
-              ],
-            }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-accent py-3.5 font-display text-base font-bold text-accent-ink shadow-[0_8px_26px_-6px_oklch(82%_0.13_195/0.5)] transition-transform active:scale-[0.98]"
           >
-            {/* sheen sweep */}
+            {/* sheen sweep (transform-only, composited) */}
             <motion.span
               aria-hidden
-              className="absolute inset-y-0 w-1/3 -skew-x-12 bg-white/25 blur-md"
+              className="absolute inset-y-0 w-1/3 -skew-x-12 bg-white/20 will-change-transform"
               initial={{ x: "-150%" }}
               animate={{ x: "350%" }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.6 }}
+              transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.8 }}
             />
             <span className="relative z-10 flex items-center gap-2">
               Kick off
