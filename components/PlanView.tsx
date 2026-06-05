@@ -6,6 +6,7 @@ import { buildPlan } from "@/lib/arrivalEngine";
 import matchesData from "@/data/matches.json";
 import { formatDate, formatKickoff } from "@/lib/format";
 import SourceChip from "./SourceChip";
+import LeaveAlert from "./LeaveAlert";
 
 const ORIGINS: Origin[] = ["Brickell", "Miami Beach", "Downtown", "Aventura"];
 const venue = matchesData.venue;
@@ -157,6 +158,10 @@ export default function PlanView({ match }: { match: Match }) {
                       </a>
                     )}
                   </div>
+                )}
+
+                {match.kickoff !== null && origin && (
+                  <LeaveAlert match={match} origin={origin} option={opt} />
                 )}
               </div>
             );

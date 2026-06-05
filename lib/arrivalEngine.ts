@@ -51,6 +51,18 @@ export function leaveBy(kickoff: string | null, transitMin: number): string {
   return toAmPm(h * 60 + m - (transitMin + SECURITY_BUFFER_MIN));
 }
 
+// Same computed minute as leaveBy(), but as ET wall-clock parts so the
+// calendar/alert layer can build a real timestamp. Time math stays here.
+export function leaveByClock(
+  kickoff: string | null,
+  transitMin: number,
+): { hh: number; mm: number } | null {
+  if (!kickoff) return null;
+  const [h, m] = kickoff.split(":").map(Number);
+  const t = (((h * 60 + m - (transitMin + SECURITY_BUFFER_MIN)) % 1440) + 1440) % 1440;
+  return { hh: Math.floor(t / 60), mm: t % 60 };
+}
+
 export function buildPlan(origin: Origin, match: Match): ArrivalPlan {
   const options: ArrivalOption[] = PLANS[origin].map((mth, i) => {
     if (mth.hardStop) {
