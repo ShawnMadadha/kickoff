@@ -1,5 +1,6 @@
 "use client";
 
+import { LinkSimple } from "@phosphor-icons/react";
 import sourcesData from "@/data/sources.json";
 
 type Source = { claim: string; label: string; url: string };
@@ -20,7 +21,7 @@ export default function SourceChip({ k }: { k: string }) {
       title={s.claim}
       className="inline-flex items-center gap-1 rounded-full border border-line bg-card-2 px-2 py-0.5 text-[10px] font-medium text-muted transition-colors hover:border-accent/50 hover:text-accent"
     >
-      <span aria-hidden>🔗</span>
+      <LinkSimple size={11} weight="bold" aria-hidden />
       {s.label}
     </a>
   );

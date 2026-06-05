@@ -18,8 +18,9 @@ export async function previewLeaveAlert(
   if (perm === "default") perm = await Notification.requestPermission();
   if (perm !== "granted") return "denied";
 
-  new Notification(`⚽ Time to leave for ${match.fixture}`, {
+  new Notification(`Time to leave for ${match.fixture}`, {
     body: `Leave by ${option.leaveBy} · ${option.method} · ~${option.transitEstimateMin} min to Hard Rock Stadium.`,
+    icon: "/favicon.ico",
     tag: "kickoff-leave",
   });
   return "shown";

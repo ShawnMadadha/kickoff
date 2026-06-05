@@ -1,17 +1,22 @@
 "use client";
 
+import {
+  CalendarBlank,
+  NavigationArrow,
+  MapTrifold,
+  Microphone,
+  type Icon,
+} from "@phosphor-icons/react";
 import { t, type Language } from "@/lib/i18n";
 
 export type Tab = "schedule" | "plan" | "map" | "voice";
 
-const ICONS: Record<Tab, string> = {
-  schedule: "📅",
-  plan: "🧭",
-  map: "📍",
-  voice: "🎙️",
-};
-
-const ORDER: Tab[] = ["schedule", "plan", "map", "voice"];
+const TABS: { id: Tab; Icon: Icon }[] = [
+  { id: "schedule", Icon: CalendarBlank },
+  { id: "plan", Icon: NavigationArrow },
+  { id: "map", Icon: MapTrifold },
+  { id: "voice", Icon: Microphone },
+];
 
 export default function TabBar({
   active,
@@ -23,9 +28,12 @@ export default function TabBar({
   language: Language;
 }) {
   return (
-    <nav className="shrink-0 border-t border-line/60 bg-night/95 backdrop-blur">
+    <nav
+      className="relative z-10 shrink-0 border-t border-line/60 bg-night-2/90 backdrop-blur"
+      style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+    >
       <ul className="grid grid-cols-4">
-        {ORDER.map((id) => {
+        {TABS.map(({ id, Icon }) => {
           const on = active === id;
           return (
             <li key={id}>
@@ -33,13 +41,17 @@ export default function TabBar({
                 type="button"
                 onClick={() => onChange(id)}
                 aria-current={on ? "page" : undefined}
-                className={`flex w-full flex-col items-center gap-1 py-3 text-[11px] font-medium transition-colors ${
+                className={`relative flex min-h-[52px] w-full flex-col items-center justify-center gap-1 pt-2.5 text-[11px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 ${
                   on ? "text-accent" : "text-muted hover:text-ink"
                 }`}
               >
-                <span className="text-lg leading-none" aria-hidden>
-                  {ICONS[id]}
-                </span>
+                {on && (
+                  <span
+                    aria-hidden
+                    className="absolute top-0 h-[3px] w-7 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent)]"
+                  />
+                )}
+                <Icon size={22} weight={on ? "fill" : "regular"} aria-hidden />
                 {t("tabs", id, language)}
               </button>
             </li>

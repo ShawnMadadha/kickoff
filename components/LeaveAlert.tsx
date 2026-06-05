@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CalendarPlus, BellRinging, Check } from "@phosphor-icons/react";
 import type { Match, Origin, ArrivalOption } from "@/lib/types";
 import { buildIcs, downloadIcs } from "@/lib/calendar";
 import { previewLeaveAlert } from "@/lib/notify";
@@ -51,16 +52,20 @@ export default function LeaveAlert({
               : "border-line bg-card-2 text-ink hover:border-accent/50"
           }`}
         >
-          {added
-            ? `✓ ${t("alert", "added", language)}`
-            : `📅 ${t("alert", "add", language)}`}
+          {added ? (
+            <Check size={13} weight="bold" aria-hidden />
+          ) : (
+            <CalendarPlus size={13} weight="bold" aria-hidden />
+          )}
+          {added ? t("alert", "added", language) : t("alert", "add", language)}
         </button>
         <button
           type="button"
           onClick={onPreview}
           className="inline-flex items-center gap-1 rounded-full border border-line bg-card-2 px-2.5 py-1 text-[11px] font-semibold text-ink transition-colors hover:border-accent/50"
         >
-          🔔 {t("alert", "preview", language)}
+          <BellRinging size={13} weight="bold" aria-hidden />
+          {t("alert", "preview", language)}
         </button>
       </div>
       <p className="mt-1.5 text-[10px] text-muted/80">

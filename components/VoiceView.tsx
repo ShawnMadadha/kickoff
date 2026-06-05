@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { Microphone, MicrophoneSlash, Play, Scales } from "@phosphor-icons/react";
 import type { Match } from "@/lib/types";
 import { t, type Language } from "@/lib/i18n";
 import {
@@ -105,13 +106,18 @@ export default function VoiceView({
                 type="button"
                 onClick={onMic}
                 aria-pressed={listening}
-                className={`flex h-16 w-16 items-center justify-center rounded-full text-2xl transition-all ${
+                aria-label={t("voice", listening ? "listening" : "tapMic", language)}
+                className={`flex h-16 w-16 items-center justify-center rounded-full outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent ${
                   listening
-                    ? "animate-pulse bg-danger/20 ring-4 ring-danger/40"
-                    : "bg-accent/15 ring-2 ring-accent/30 hover:bg-accent/25"
+                    ? "bg-danger/20 text-danger ring-4 ring-danger/40"
+                    : "bg-accent/15 text-accent ring-2 ring-accent/30 hover:bg-accent/25"
                 }`}
               >
-                🎙️
+                {listening ? (
+                  <MicrophoneSlash size={26} weight="fill" aria-hidden />
+                ) : (
+                  <Microphone size={26} weight="fill" aria-hidden />
+                )}
               </button>
               <p className="mt-2 text-xs text-muted">
                 {listening
@@ -168,9 +174,10 @@ export default function VoiceView({
             <button
               type="button"
               onClick={speak}
-              className="shrink-0 rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink transition-opacity hover:opacity-90"
+              className="inline-flex shrink-0 items-center gap-1 rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink transition-opacity hover:opacity-90"
             >
-              ▶ {t("voice", "play", language)}
+              <Play size={12} weight="fill" aria-hidden />
+              {t("voice", "play", language)}
             </button>
           </div>
           <div className="mt-3 flex flex-wrap gap-1.5">
@@ -186,9 +193,9 @@ export default function VoiceView({
         </p>
       )}
 
-      <div className="mt-4 rounded-xl border border-line bg-card-2 p-3">
+      <div className="mt-4 flex items-start gap-2 rounded-xl border border-line bg-card-2 p-3">
+        <Scales size={16} weight="bold" aria-hidden className="mt-0.5 shrink-0 text-accent" />
         <p className="text-[11px] leading-relaxed text-muted">
-          <span className="font-semibold text-ink">⚖️</span>{" "}
           {t("voice", "rule", language)}
         </p>
       </div>

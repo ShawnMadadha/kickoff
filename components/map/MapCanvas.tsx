@@ -31,7 +31,7 @@ export default function MapCanvas({
       boundsOptions={{ padding: [28, 28] }}
       scrollWheelZoom={false}
       className="h-full w-full"
-      style={{ background: "#0a0f1a" }}
+      style={{ background: "#10131c" }}
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

@@ -94,9 +94,9 @@ export const copy = {
       pt: "A agenda vai te lembrar às {time} no dia do jogo.",
     },
     previewed: {
-      en: "Alert previewed ✓",
-      es: "Alerta probada ✓",
-      pt: "Alerta testado ✓",
+      en: "Alert previewed",
+      es: "Alerta probada",
+      pt: "Alerta testado",
     },
     blocked: {
       en: "Notifications blocked — use the calendar reminder",
@@ -131,9 +131,9 @@ export const copy = {
       pt: "Calor",
     },
     legend: {
-      en: "⚽ stadium · 🍻 watch party · 🎉 fan festival · 🪅 fan zone. Tiles © OpenStreetMap, CARTO. Venues seeded — no live calls.",
-      es: "⚽ estadio · 🍻 fiesta · 🎉 festival de fans · 🪅 zona de fans. Tiles © OpenStreetMap, CARTO. Sedes sembradas — sin llamadas en vivo.",
-      pt: "⚽ estádio · 🍻 festa · 🎉 festival de fãs · 🪅 zona de fãs. Tiles © OpenStreetMap, CARTO. Locais semeados — sem chamadas ao vivo.",
+      en: "Stadium · watch party · fan festival · fan zone. Tiles © OpenStreetMap, CARTO. Venues seeded, no live calls.",
+      es: "Estadio · fiesta · festival de fans · zona de fans. Tiles © OpenStreetMap, CARTO. Sedes sembradas, sin llamadas en vivo.",
+      pt: "Estádio · festa · festival de fãs · zona de fãs. Tiles © OpenStreetMap, CARTO. Locais semeados, sem chamadas ao vivo.",
     },
     empty: {
       en: "No venues match these filters.",
@@ -178,9 +178,9 @@ export const copy = {
       pt: "Ouvindo…",
     },
     micHint: {
-      en: "🎙️ Live mic works best in Chrome — or pick a demo / type below.",
-      es: "🎙️ El micrófono funciona mejor en Chrome — o elige un ejemplo / escribe abajo.",
-      pt: "🎙️ O microfone funciona melhor no Chrome — ou escolha um exemplo / digite abaixo.",
+      en: "Live mic works best in Chrome, or pick a demo / type below.",
+      es: "El micrófono funciona mejor en Chrome, o elige un ejemplo / escribe abajo.",
+      pt: "O microfone funciona melhor no Chrome, ou escolha um exemplo / digite abaixo.",
     },
     demoLabel: {
       en: "Demo transcript",

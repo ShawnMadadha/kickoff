@@ -23,7 +23,8 @@ export default function HeatLayer({ venues }: { venues: Venue[] }) {
       blur: 35,
       maxZoom: 14,
       minOpacity: 0.3,
-      gradient: { 0.2: "#19c37d", 0.5: "#f2c14e", 0.85: "#f0596b" },
+      // semantic ramp: calm aqua → amber → hot red (matches the app palette)
+      gradient: { 0.2: "#3ad0d6", 0.5: "#f0a93a", 0.85: "#e8615f" },
     }).addTo(map);
 
     return () => {

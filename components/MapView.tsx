@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import { Check } from "@phosphor-icons/react";
 import venuesData from "@/data/venues.json";
 import playlistsData from "@/data/playlists.json";
 import type { Venue } from "@/lib/types";
@@ -92,25 +93,27 @@ export default function MapView({ language }: { language: Language }) {
         <button
           type="button"
           onClick={() => setFreeOnly((v) => !v)}
-          className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+          aria-pressed={freeOnly}
+          className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
             freeOnly
               ? "border-accent bg-accent/15 text-accent"
               : "border-line bg-card text-muted hover:text-ink"
           }`}
         >
-          {freeOnly ? "✓ " : ""}
+          {freeOnly && <Check size={12} weight="bold" aria-hidden />}
           {t("map", "freeOnly", language)}
         </button>
         <button
           type="button"
           onClick={() => setShowHeat((v) => !v)}
-          className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+          aria-pressed={showHeat}
+          className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
             showHeat
               ? "border-accent bg-accent/15 text-accent"
               : "border-line bg-card text-muted hover:text-ink"
           }`}
         >
-          {showHeat ? "✓ " : ""}
+          {showHeat && <Check size={12} weight="bold" aria-hidden />}
           {t("map", "heat", language)}
         </button>
       </div>
