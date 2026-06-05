@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { MotionConfig, AnimatePresence, motion } from "motion/react";
 import matchesData from "@/data/matches.json";
 import type { Match, Origin } from "@/lib/types";
@@ -11,6 +11,7 @@ import TabBar, { type Tab } from "./TabBar";
 import LoginScreen from "./LoginScreen";
 import CountryPicker, { type Country } from "./CountryPicker";
 import TeamBackground from "./TeamBackground";
+import { TEAMS } from "@/lib/teams";
 import ScheduleView from "./ScheduleView";
 import PlanView from "./PlanView";
 import MapView from "./MapView";
@@ -73,10 +74,18 @@ export default function AppShell() {
   }
 
   const showLang = tab === "plan" || tab === "map" || tab === "voice";
+  // Chosen team recolors every `accent` across the app (token override).
+  const tm = team && team !== "none" ? TEAMS[team] : null;
+  const teamStyle = tm
+    ? ({ "--color-accent": tm.accent } as CSSProperties)
+    : undefined;
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative z-10 mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-night-2 shadow-2xl shadow-black/40 sm:my-4 sm:h-[calc(100dvh-2rem)] sm:rounded-3xl sm:border sm:border-line/60">
+      <div
+        style={teamStyle}
+        className="relative z-10 mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-night-2 shadow-2xl shadow-black/40 sm:my-4 sm:h-[calc(100dvh-2rem)] sm:rounded-3xl sm:border sm:border-line/60"
+      >
         <TeamBackground team={team} />
         <header
           className="relative z-10 flex items-center gap-2.5 border-b border-line/60 px-5 py-3.5"
