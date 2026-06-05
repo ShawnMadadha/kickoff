@@ -12,6 +12,7 @@
   --color-accent-ink: oklch(22% 0.05 210);
   --color-ink: oklch(96% 0.005 250);
   --color-muted: oklch(72% 0.02 255);
+  --color-faint: oklch(60% 0.02 255);
   --color-danger: oklch(66% 0.18 25); /* "stop" / blocked */
   --color-danger-bg: oklch(28% 0.08 22);
   --color-rush: oklch(80% 0.14 72); /* NEW — amber: kickoff marker / urgency */

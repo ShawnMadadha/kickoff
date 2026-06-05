@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { MotionConfig } from "motion/react";
+import { MotionConfig, AnimatePresence } from "motion/react";
 import matchesData from "@/data/matches.json";
 import type { Match } from "@/lib/types";
 import { t, type Language } from "@/lib/i18n";
 import { kickoffCountdown, formatCountdown } from "@/lib/countdown";
 import { useNow } from "@/lib/useNow";
 import TabBar, { type Tab } from "./TabBar";
+import LoginScreen from "./LoginScreen";
 import ScheduleView from "./ScheduleView";
 import PlanView from "./PlanView";
 import MapView from "./MapView";
@@ -38,6 +39,7 @@ export default function AppShell() {
   const [tab, setTab] = useState<Tab>("schedule");
   const [selectedMatchId, setSelectedMatchId] = useState<string>(matches[0].id);
   const [language, setLanguage] = useState<Language>("en");
+  const [entered, setEntered] = useState(false);
 
   const selectedMatch =
     matches.find((m) => m.id === selectedMatchId) ?? matches[0];
@@ -112,6 +114,12 @@ export default function AppShell() {
         </main>
 
         <TabBar active={tab} onChange={setTab} language={language} />
+
+        <AnimatePresence>
+          {!entered && (
+            <LoginScreen key="login" onEnter={() => setEntered(true)} />
+          )}
+        </AnimatePresence>
       </div>
     </MotionConfig>
   );
