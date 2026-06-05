@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MotionConfig, AnimatePresence } from "motion/react";
+import { MotionConfig, AnimatePresence, motion } from "motion/react";
 import matchesData from "@/data/matches.json";
 import type { Match, Origin } from "@/lib/types";
 import { t, type Language } from "@/lib/i18n";
@@ -9,6 +9,8 @@ import { kickoffCountdown, formatCountdown } from "@/lib/countdown";
 import { useNow } from "@/lib/useNow";
 import TabBar, { type Tab } from "./TabBar";
 import LoginScreen from "./LoginScreen";
+import CountryPicker, { type Country } from "./CountryPicker";
+import TeamBackground from "./TeamBackground";
 import ScheduleView from "./ScheduleView";
 import PlanView from "./PlanView";
 import MapView from "./MapView";
@@ -40,6 +42,7 @@ export default function AppShell() {
   const [selectedMatchId, setSelectedMatchId] = useState<string>(matches[0].id);
   const [language, setLanguage] = useState<Language>("en");
   const [entered, setEntered] = useState(false);
+  const [team, setTeam] = useState<Country | "none" | null>(null);
   const [initialOrigin, setInitialOrigin] = useState<Origin | null>(null);
 
   const selectedMatch =
@@ -60,6 +63,7 @@ export default function AppShell() {
     if (o && validOrigins.includes(o as Origin)) setInitialOrigin(o as Origin);
     setTab("plan");
     setEntered(true);
+    setTeam("none"); // deep link skips the splash + country picker
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -73,8 +77,9 @@ export default function AppShell() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="relative z-10 mx-auto flex h-dvh w-full max-w-md flex-col overflow-hidden bg-night-2 shadow-2xl shadow-black/40 sm:my-4 sm:h-[calc(100dvh-2rem)] sm:rounded-3xl sm:border sm:border-line/60">
+        <TeamBackground team={team} />
         <header
-          className="flex items-center gap-2.5 border-b border-line/60 px-5 py-3.5"
+          className="relative z-10 flex items-center gap-2.5 border-b border-line/60 px-5 py-3.5"
           style={{ paddingTop: "max(0.875rem, env(safe-area-inset-top))" }}
         >
           <span
@@ -111,29 +116,39 @@ export default function AppShell() {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto px-4 pb-6 pt-4">
-          {tab === "schedule" && (
-            <ScheduleView
-              matches={matches}
-              selectedId={selectedMatchId}
-              onPick={pickMatch}
-            />
-          )}
-          {tab === "plan" && (
-            <PlanView
-              match={selectedMatch}
-              language={language}
-              initialOrigin={initialOrigin}
-            />
-          )}
-          {tab === "map" && <MapView language={language} />}
-          {tab === "voice" && (
-            <VoiceView
-              match={selectedMatch}
-              language={language}
-              onLanguageChange={setLanguage}
-            />
-          )}
+        <main className="relative z-10 flex-1 overflow-y-auto px-4 pb-6 pt-4">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={tab}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {tab === "schedule" && (
+                <ScheduleView
+                  matches={matches}
+                  selectedId={selectedMatchId}
+                  onPick={pickMatch}
+                />
+              )}
+              {tab === "plan" && (
+                <PlanView
+                  match={selectedMatch}
+                  language={language}
+                  initialOrigin={initialOrigin}
+                />
+              )}
+              {tab === "map" && <MapView language={language} />}
+              {tab === "voice" && (
+                <VoiceView
+                  match={selectedMatch}
+                  language={language}
+                  onLanguageChange={setLanguage}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </main>
 
         <TabBar active={tab} onChange={setTab} language={language} />
@@ -141,6 +156,9 @@ export default function AppShell() {
         <AnimatePresence>
           {!entered && (
             <LoginScreen key="login" onEnter={() => setEntered(true)} />
+          )}
+          {entered && team === null && (
+            <CountryPicker key="country" onPick={setTeam} />
           )}
         </AnimatePresence>
       </div>
